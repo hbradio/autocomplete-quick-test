@@ -8,13 +8,21 @@
 
         <button onclick="myFunction()">autocomplete</button>
 
-        <p id=result></p>
+        <p id=result>Warming up. Wait just a moment.</p>
     </body>
 
     <script>
+        // Warm up the lambda on page load
+        fetch('https://nedk6qxpi5.execute-api.us-east-1.amazonaws.com/deployed/completion?type=shakespeare001&phrase=asdf')
+            .then(response => response.json())
+            .then(data => {
+                console.log("warm!");
+                document.getElementById("result").innerHTML = "Ready!";
+            });
+
         function myFunction() {
+            document.getElementById("result").innerHTML = "...";
             const phrase = document.getElementById("phrase").value;
-            console.log(phrase);
             const uriPhrase = encodeURI(phrase);
             fetch('https://nedk6qxpi5.execute-api.us-east-1.amazonaws.com/deployed/completion?type=shakespeare001&phrase=' + uriPhrase)
                 .then(response => response.json())
