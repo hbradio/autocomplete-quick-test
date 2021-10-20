@@ -1,0 +1,43 @@
+<html>
+    <body>
+        <h1>Shakespeare Autocompleter</h1>
+
+        <form>
+            <input type="text" id="phrase" name="phrase" value="Hello, ">
+        </form>
+
+        <button onclick="myFunction()">autocomplete</button>
+
+        <p id=result></p>
+    </body>
+
+    <script>
+        function myFunction() {
+            const phrase = document.getElementById("phrase").value;
+            console.log(phrase);
+            const uriPhrase = encodeURI(phrase);
+            fetch('https://nedk6qxpi5.execute-api.us-east-1.amazonaws.com/deployed/completion?type=shakespeare001&phrase=' + uriPhrase)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    document.getElementById("result").innerHTML = phrase + data.completion;
+                });
+        }
+
+        document.getElementById("phrase").addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                myFunction();
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            max-width: 500px;
+            margin: auto;
+            margin-top: 100px;
+        }
+    </style>
+</html>
