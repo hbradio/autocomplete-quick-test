@@ -1,23 +1,22 @@
 <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-
-      <title>Autocomplete Quick Test</title>
-      <meta name="description" content="A quick test of my autocomplete API.">
-      <meta name="author" content="Brady Hurlburt">
-
-      <meta property="og:title" content="Autocomplete Quick Test">
-      <meta property="og:type" content="website">
-      <meta property="og:url" content="https://hbradio.github.io/autocomplete-quick-test">
-      <meta property="og:description" content="A quick test of my autocomplete API.">
-    </head>
     <body>
-        <h1>Shakespeare Autocompleter</h1>
+        <h1>Autocompleter</h1>
 
-        <form>
-            <input type="text" id="phrase" name="phrase" value="Hello, ">
-        </form>
+        <label for="model">Choose a model:</label>
+        <select name="model" id="model">
+            <option value="shakespeare001">Shakespeare (Hamlet)</option>
+            <option value="trump001">Trump (various speeches 2016-2019)</option>
+            <option value="hitler001">Adolf Hitler (Mein Kampf) </option>
+            <option value="kjv001">King James Version Bible</option>
+        </select>
+        <br />
+        <br />
+
+        <label for="phrase">Start typing here:</label>
+        <textarea id="phrase" name="phrase" rows="4" cols="50">Hello,</textarea>
+
+        <br />
+        <br />
 
         <button onclick="myFunction()">autocomplete</button>
 
@@ -36,8 +35,9 @@
         function myFunction() {
             document.getElementById("result").innerHTML = "...";
             const phrase = document.getElementById("phrase").value;
+            const model = document.getElementById("model").value;
             const uriPhrase = encodeURI(phrase);
-            fetch('https://nedk6qxpi5.execute-api.us-east-1.amazonaws.com/deployed/completion?type=shakespeare001&phrase=' + uriPhrase)
+            fetch(`https://nedk6qxpi5.execute-api.us-east-1.amazonaws.com/deployed/completion?type=${model}&phrase=${uriPhrase}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
@@ -56,14 +56,13 @@
 
     <style>
         body {
-            padding: 20px;
             font-size: 24px;
             max-width: 500px;
             margin: auto;
             margin-top: 100px;
         }
 
-        button, input {
+        button, input, select, textarea {
             font-size: 24px;
         }
     </style>
